@@ -18,7 +18,7 @@ $api = app(Dingo\Api\Routing\Router::class);
 
 $api->version('v1', function ($api) {
     $api->post('authenticate', 'App\Http\Controllers\Api\Auth\AuthController@login');
-
+    $api->post('register', 'App\Http\Controllers\Api\Auth\RegisterController@register');
 });
 
 $api->version('v1', ['middleware' => 'jwt.auth'], function($api) {
