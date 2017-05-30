@@ -36,4 +36,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Payment::class, 'owner_id');
     }
+
+    /**
+     * Getting sent bills for a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sentBills()
+    {
+        return $this->hasMany(Bill::class, 'sender_id');
+    }
+
+    /**
+     * Getting received bills for a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function receivedBills()
+    {
+        return $this->hasMany(Bill::class, 'receiver_id');
+    }
 }
