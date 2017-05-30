@@ -21,7 +21,7 @@ class History extends Model
     ];
 
     /**
-     * A bill is owned by a sender user.
+     * A history row is owned by a user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
