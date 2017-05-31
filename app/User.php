@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Bill::class, 'receiver_id');
     }
+
+    /**
+     * Getting history for a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function history()
+    {
+        return $this->hasMany(History::class, 'owner_id');
+    }
 }
