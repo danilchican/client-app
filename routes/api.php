@@ -29,6 +29,8 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function($api) {
 
     $api->get('history', 'App\Http\Controllers\Api\History\HistoryController@history');
 
+    $api->get('bill/list/{type?}', 'App\Http\Controllers\Api\Bill\BillController@bills');
+
     $api->get('user', 'App\Http\Controllers\Api\Auth\AuthController@getAuthUser');
     $api->post('logout', 'App\Http\Controllers\Api\Auth\AuthController@logout');
 });

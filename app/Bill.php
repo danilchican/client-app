@@ -48,7 +48,7 @@ class Bill extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getSourcePayment()
+    public function sourcePayment()
     {
         return $this->belongsTo(Payment::class, 'src_payment_id');
     }
@@ -58,7 +58,7 @@ class Bill extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getDestinationPayment()
+    public function destinationPayment()
     {
         return $this->belongsTo(Payment::class, 'dst_payment_id');
     }
