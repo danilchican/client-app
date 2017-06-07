@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class History extends Model
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    public $table = 'history';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
