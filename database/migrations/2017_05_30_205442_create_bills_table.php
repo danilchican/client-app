@@ -21,15 +21,29 @@ class CreateBillsTable extends Migration
             $table->integer('src_payment_id')->unsigned();
             $table->integer('dst_payment_id')->unsigned();
 
-            $table->decimal('amount', 8, 4);
+            $table->decimal('amount', 18, 4);
             $table->text('notification')->nullable();
             $table->boolean('status')->default(0);
 
-            $table->foreign('sender_id')->references('id')->on('users');
-            $table->foreign('receiver_id')->references('id')->on('users');
+            $table->foreign('sender_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
-            $table->foreign('src_payment_id')->references('id')->on('payments');
-            $table->foreign('dst_payment_id')->references('id')->on('payments');
+            $table->foreign('receiver_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('src_payment_id')
+                ->references('id')
+                ->on('payments')
+                ->onDelete('cascade');
+
+            $table->foreign('dst_payment_id')
+                ->references('id')
+                ->on('payments')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

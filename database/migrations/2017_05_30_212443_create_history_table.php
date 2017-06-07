@@ -22,8 +22,14 @@ class CreateHistoryTable extends Migration
             $table->decimal('amount', 8, 4);
             $table->decimal('balance', 8, 4);
 
-            $table->foreign('owner_id')->references('id')->on('users');
-            $table->foreign('payment_id')->references('id')->on('payments');
+            $table->foreign('owner_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->foreign('payment_id')
+                ->references('id')
+                ->on('payments')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -21,7 +21,9 @@ class CreatePaymentsTable extends Migration
             $table->string('currency');
             $table->decimal('amount', 8, 4)->default(0);
 
-            $table->foreign('owner_id')->references('id')->on('users')
+            $table->foreign('owner_id')
+                ->references('id')
+                ->on('users')
                 ->onDelete('cascade');
 
             $table->timestamps();
