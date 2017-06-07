@@ -51,4 +51,46 @@ class BillController
             return Response::json(['error' => $e->getMessage()], 400);
         }
     }
+
+    /**
+     * Remove a bill.
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function remove(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->toUser();
+
+            if ($request->has('id')) {
+                $id = $request->input('id');
+
+                $bill = $user->receivedBills()
+                    ->where('id', '=', $id)
+                    ->first();
+
+                if(is_null($bill)) {
+                    $bill = $user->sentBills()
+                        ->where('id', '=', $id)
+                        ->first();
+                }
+
+                if(!is_null($bill)) {
+                    $bill->delete();
+                } else {
+                    throw new JWTException();
+                }
+
+            } else {
+                throw new JWTException();
+            }
+        } catch (JWTException $e) {
+            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+        } catch (Exception $e) {
+            return Response::json(['error' => $e->getMessage()], 400);
+        }
+
+        return Response::json(['message' => 'Счет успешно удален!', 'code' => 200]);
+    }
 }
