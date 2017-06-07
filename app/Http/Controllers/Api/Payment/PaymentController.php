@@ -46,27 +46,40 @@ class PaymentController
     {
         try {
             $user = JWTAuth::parseToken()->toUser();
-            $payment = $user->payments()
-                ->where('number', '=', $request->input('number'))
-                ->first();
 
-            $payment->delete();
+            if ($request->has('number')) {
+                $number = $request->input('number');
+
+                if (is_array($number)) {
+                    $user->payments()
+                        ->whereIn('number', $number)
+                        ->delete();
+                } else {
+                    $payment = $user->payments()
+                        ->where('number', '=', $number)
+                        ->first();
+
+                    $payment->delete();
+                }
+            } else {
+                $user->payments()->delete();
+            }
         } catch (JWTException $e) {
             return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
 
-        return Response::json(['message' => 'Кошелек успешно удалён!', 'code' => 200]);
+        return Response::json(['message' => 'Кошельки удалёны!', 'code' => 200]);
     }
 
     /**
      * Get payments list.
      *
-     * @param \Request $request
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function payments(\Request $request)
+    public function payments(Request $request)
     {
         try {
             $user = JWTAuth::parseToken()->toUser();
@@ -78,6 +91,33 @@ class PaymentController
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
+    }
 
+    /**
+     * Get payment by it number.
+     *
+     * @param Request $request
+     * @param null $number
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPaymentByNumber(Request $request, $number = null)
+    {
+        try {
+            $user = JWTAuth::parseToken()->toUser();
+
+            if (!is_null($number)) {
+                $payment = $user->payments()
+                    ->where('number', '=', $number)
+                    ->first();
+
+                return Response::json(['payment' => $payment, 'code' => 200]);
+            }
+        } catch (JWTException $e) {
+            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+        } catch (Exception $e) {
+            return Response::json(['error' => $e->getMessage()], 400);
+        }
+
+        return Response::json(['message' => 'Кошелек не найден', 'code' => 400]);
     }
 }

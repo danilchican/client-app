@@ -25,6 +25,7 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function($api) {
     $api->post('payment/create', 'App\Http\Controllers\Api\Payment\PaymentController@create');
     $api->post('payment/remove', 'App\Http\Controllers\Api\Payment\PaymentController@remove');
     $api->get('payment/list', 'App\Http\Controllers\Api\Payment\PaymentController@payments');
+    $api->get('payment/{number}', 'App\Http\Controllers\Api\Payment\PaymentController@getPaymentByNumber');
 
     $api->get('user', 'App\Http\Controllers\Api\Auth\AuthController@getAuthUser');
     $api->post('logout', 'App\Http\Controllers\Api\Auth\AuthController@logout');
