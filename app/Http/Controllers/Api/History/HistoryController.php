@@ -30,4 +30,23 @@ class HistoryController
             return Response::json(['error' => $e->getMessage()], 400);
         }
     }
+
+    /**
+     * Clear a history.
+     *
+     * @return mixed
+     */
+    public function clear()
+    {
+        try {
+            $user = JWTAuth::parseToken()->toUser();
+            $user->history()->delete();
+        } catch (JWTException $e) {
+            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+        } catch (Exception $e) {
+            return Response::json(['error' => $e->getMessage()], 400);
+        }
+
+        return Response::json(['message' => 'История очищена!', 'code' => 200]);
+    }
 }
