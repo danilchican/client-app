@@ -13,6 +13,31 @@ use Illuminate\Support\Facades\Response;
 class PaymentController
 {
     /**
+     * Update a payment.
+     *
+     * @param Request $request
+     * @param null $number
+     * @return mixed
+     */
+    public function update(Request $request, $number = null)
+    {
+        try {
+            if (!is_null($number)) {
+                $payment = Payment::where('number', '=', $number);
+                $payment->update($request->all());
+            } else {
+                throw new JWTException();
+            }
+        } catch (JWTException $e) {
+            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+        } catch (Exception $e) {
+            return Response::json(['error' => $e->getMessage()], 400);
+        }
+
+        return Response::json(['payment' => $payment, 'code' => 200]);
+    }
+
+    /**
      * Create a new payment.
      *
      * @param CreatePaymentRequest $request
@@ -77,13 +102,23 @@ class PaymentController
      * Get payments list.
      *
      * @param Request $request
+     * @param null $change
      * @return \Illuminate\Http\JsonResponse
      */
-    public function payments(Request $request)
+    public function payments(Request $request, $change = null)
     {
         try {
             $user = JWTAuth::parseToken()->toUser();
-            $payments = $user->payments()->get();
+
+            if (is_null($change)) {
+                $payments = $user->payments()
+                    ->get();
+            } else {
+                $payments = $user->payments()
+                    ->where('currency', '!=', $change)
+                    ->get();
+            }
+
 
             return Response::json(['payments' => $payments, 'code' => 200]);
         } catch (JWTException $e) {

@@ -19,8 +19,8 @@ class CreateHistoryTable extends Migration
             $table->integer('payment_id')->unsigned();
             $table->text('message');
             $table->boolean('type');
-            $table->decimal('amount', 8, 4);
-            $table->decimal('balance', 8, 4);
+            $table->decimal('amount', 16, 4);
+            $table->decimal('balance', 16, 4);
 
             $table->foreign('owner_id')
                 ->references('id')

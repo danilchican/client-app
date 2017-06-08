@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\History;
 
 use App\Payment;
-use Illuminate\Http\Request;
 use App\History;
+use Illuminate\Http\Request;
 use Exception;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -27,9 +27,10 @@ class HistoryController
         try {
             $payment = Payment::where('number', '=', $request->input('number'))->first();
 
-            if($payment) {
+            if($payment != null) {
                 $history = new History($credentials);
-                $history->save($payment);
+                $history->payment_id = $payment->id;
+                $history->save();
 
                 return Response::json(['history' => $history, 'code' => 200]);
             }

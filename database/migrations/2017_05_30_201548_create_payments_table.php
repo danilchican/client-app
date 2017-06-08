@@ -19,7 +19,7 @@ class CreatePaymentsTable extends Migration
             $table->string('name');
             $table->string('number');
             $table->string('currency');
-            $table->decimal('amount', 8, 4)->default(0);
+            $table->decimal('amount', 16, 4)->default(0);
 
             $table->foreign('owner_id')
                 ->references('id')
