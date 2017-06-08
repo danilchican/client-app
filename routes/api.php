@@ -28,13 +28,14 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function($api) {
     $api->get('payment/{number}', 'App\Http\Controllers\Api\Payment\PaymentController@getPaymentByNumber');
     $api->post('payment/update/{number}', 'App\Http\Controllers\Api\Payment\PaymentController@update');
     $api->post('payment/transfer', 'App\Http\Controllers\Api\Payment\PaymentController@transfer');
+    $api->post('payment/exchange', 'App\Http\Controllers\Api\Payment\PaymentController@exchange');
 
     $api->get('history', 'App\Http\Controllers\Api\History\HistoryController@history');
     $api->post('history/clear', 'App\Http\Controllers\Api\History\HistoryController@clear');
     $api->post('history/create', 'App\Http\Controllers\Api\History\HistoryController@create');
 
     $api->get('bill/list/{type?}', 'App\Http\Controllers\Api\Bill\BillController@bills');
-    $api->post('bill/remove', 'App\Http\Controllers\Api\Bill\BillController@remove');
+    $api->post('bill/remove',   'App\Http\Controllers\Api\Bill\BillController@remove');
     $api->post('bill/create', 'App\Http\Controllers\Api\Bill\BillController@create');
 
     $api->get('user', 'App\Http\Controllers\Api\Auth\AuthController@getAuthUser');
