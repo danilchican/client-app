@@ -132,7 +132,7 @@ class BillController
                 ], 500);
             }
 
-            if($senderNumber[0] !== $receiverNumber[0]) {
+            if ($senderNumber[0] !== $receiverNumber[0]) {
                 return Response::json([
                     'error' => 'Укажите кошелек получателя с такой же валютой как и у вас.',
                     'code' => 500
@@ -155,6 +155,56 @@ class BillController
         return Response::json([
             'message' => 'Счет успешно выписан!',
             'bill' => $bill,
+            'code' => 200
+        ]);
+    }
+
+    /**
+     * Pay the bill.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function pay(Request $request)
+    {
+        try {
+            $billId = (int)$request->input('bill');
+
+            $bill = Bill::where('id', '=', $billId)
+                ->with(['sender', 'sourcePayment', 'destinationPayment'])
+                ->first();
+
+            if (is_null($bill)) {
+                return Response::json(['error' => 'Такого счёта не существует!', 'code' => 500], 500);
+            }
+
+            $senderBalance = $bill->sourcePayment->amount;
+            $receiverBalance = $bill->destinationPayment->amount;
+
+            $amount = $bill->amount;
+
+            if ($receiverBalance >= $amount) {
+                $negativeBalance = $receiverBalance - $amount;
+                $positiveBalance = $senderBalance + $amount;
+
+                $bill->destinationPayment->update(['amount' => $negativeBalance]);
+                $bill->sourcePayment->update(['amount' => $positiveBalance]);
+
+                $bill->update(['status' => 1]);
+            } else {
+                return Response::json(['error' => 'Недостаточно средств на кошельке!', 'code' => 500], 500);
+            }
+        } catch (JWTException $e) {
+            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+        } catch (Exception $e) {
+            return Response::json(['error' => $e->getMessage()], 400);
+        }
+
+        return Response::json([
+            'message' => 'Счёт оплачен!',
+            'balance_negative' => $negativeBalance,
+            'balance_positive' => $positiveBalance,
+            'sender_id' => $bill->sender->id,
             'code' => 200
         ]);
     }
