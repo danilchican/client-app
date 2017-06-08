@@ -62,4 +62,34 @@ class Bill extends Model
     {
         return $this->belongsTo(Payment::class, 'dst_payment_id');
     }
+
+    /**
+     *  Set a source payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function setSourcePayment($source)
+    {
+        $this->src_payment_id = $source;
+    }
+
+    /**
+     * Set a destination payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function setDestinationPayment($dest)
+    {
+        $this->dst_payment_id = $dest;
+    }
+
+    /**
+     * Set a receiver.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function setReceiver($receiver)
+    {
+        $this->receiver_id = $receiver;
+    }
 }
