@@ -223,6 +223,7 @@ class PaymentController
             $senderNumber = $request->input('sender_number');
 
             $amount = $request->input('amount');
+            $amount_plus = $request->input('amount_plus');
 
             $receiver = Payment::where('number', '=', $receiverNumber)
                 ->with('owner')
@@ -246,7 +247,7 @@ class PaymentController
                 ], 500);
             }
 
-            $sum_pos = $receiver->amount + $amount;
+            $sum_pos = $receiver->amount + $amount_plus;
             $receiver->update(['amount' => $sum_pos]);
 
             $sum = $sender->amount - $amount;
