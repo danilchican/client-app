@@ -31,10 +31,10 @@ class AuthController extends Controller
 
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
-                return Response::json(['error' => 'User credentials are not correct!', 'code' => 401], 401);
+                return Response::json(['error' => 'Неверный логин и пароль!', 'code' => 401], 401);
             }
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         }
 
         return Response::json(['token' => $token, 'code' => 200]);
@@ -48,10 +48,10 @@ class AuthController extends Controller
     public function getAuthUser() {
         try {
             if (! $user = JWTAuth::parseToken()->toUser()) {
-                return Response::json(['error' => 'User not found!', 'code' => 404], 404);
+                return Response::json(['error' => 'Пользователь не найден!', 'code' => 404], 404);
             }
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         }
 
         return Response::json(['user' => $user, 'code' => 200]);
@@ -67,14 +67,14 @@ class AuthController extends Controller
 
         try {
             if (! JWTAuth::invalidate($token)) {
-                return Response::json(['error' => 'Can\'t logout from server!', 'code' => 401], 401);
+                return Response::json(['error' => 'Ошибка выхода из аккаунта!', 'code' => 401], 401);
             }
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         }
 
         return Response::json([
-            'success' => 'User is logged off.',
+            'success' => 'Юзер разлогинен.',
             'code' => 200
         ]);
     }

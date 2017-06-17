@@ -29,7 +29,7 @@ class PaymentController
                 throw new JWTException();
             }
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
@@ -53,7 +53,7 @@ class PaymentController
             $payment = new Payment($credentials);
             $user->payments()->save($payment);
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
@@ -90,7 +90,7 @@ class PaymentController
                 $user->payments()->delete();
             }
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
@@ -122,7 +122,7 @@ class PaymentController
 
             return Response::json(['payments' => $payments, 'code' => 200]);
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
@@ -148,7 +148,7 @@ class PaymentController
                 return Response::json(['payment' => $payment, 'code' => 200]);
             }
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
@@ -198,7 +198,7 @@ class PaymentController
             $sum = $sender->amount - $amount;
             $sender->update(['amount' => $sum]);
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
@@ -253,7 +253,7 @@ class PaymentController
             $sum = $sender->amount - $amount;
             $sender->update(['amount' => $sum]);
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }

@@ -48,7 +48,7 @@ class BillController
 
             return Response::json(['bills' => $bills, 'code' => 200]);
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
@@ -88,7 +88,7 @@ class BillController
                 throw new JWTException();
             }
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
@@ -147,7 +147,7 @@ class BillController
             $user = JWTAuth::parseToken()->toUser();
             $user->sentBills()->save($bill);
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
@@ -195,7 +195,7 @@ class BillController
                 return Response::json(['error' => 'Недостаточно средств на кошельке!', 'code' => 500], 500);
             }
         } catch (JWTException $e) {
-            return Response::json(['error' => 'Something went wrong!', 'code' => 500], 500);
+            return Response::json(['error' => 'Что-то не так!', 'code' => 500], 500);
         } catch (Exception $e) {
             return Response::json(['error' => $e->getMessage()], 400);
         }
